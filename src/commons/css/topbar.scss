@@ -1,0 +1,43 @@
+   .topbar-left {
+     float: left;
+     image {
+       margin-top: 20rpx;
+       width: 60rpx;
+       height: 60rpx;
+       border-radius: 16rpx;
+       margin-left: $uni-spacing-col-lg;
+     }
+     .search {
+      height: 60rpx;
+      width: 550rpx;
+      background: $uni-bg-color-grey;
+      margin-left: $uni-spacing-col-lg;
+      margin-top: 20rpx;
+
+     }
+   }
+    
+   .topbar-right {
+     float: right;
+     image {
+       margin-top: 20rpx;
+      //  width: 60rpx;
+       height: 60rpx;
+       border-radius: 16rpx;
+       margin-right: $uni-spacing-col-lg;
+     }
+     .topbar-signin {
+      margin-top: 35rpx;
+      font-size: 30rpx;
+      font-weight: 300;
+      line-height: 30rpx;
+      margin-right: $uni-spacing-col-lg;
+     }
+     .topbar-cancel {
+      margin-top: 35rpx;
+      font-size: 30rpx;
+      font-weight: 300;
+      line-height: 30rpx;
+      margin-right: $uni-spacing-col-lg;
+     }
+   }
