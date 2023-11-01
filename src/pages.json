@@ -20,7 +20,12 @@
 			}
 		},
 
-		
+		{
+			"path": "pages/grequest/grequest",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
 		
 
 		{
