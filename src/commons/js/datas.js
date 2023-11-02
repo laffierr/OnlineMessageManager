@@ -186,5 +186,20 @@ export default {
 
     ];
     return chatListArr;
+  },
+  requestList: () => {
+    let requestListArr = [
+      {
+        id:1,
+        imgurl: '10.jpg',
+        name: 'fyb',
+      },
+      {
+        id:2,
+        imgurl: '11.jpg',
+        name: 'fybWosun',
+      },
+    ];
+    return requestListArr;
   }
 }

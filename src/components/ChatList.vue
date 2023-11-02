@@ -8,7 +8,6 @@
         <view class="list-item-pic">
           <text class="tip">{{item.tip}}</text>
           <image :src="item.imgurl"></image>
-          <!--  这个冒号是动态绑定的意思吗？ -->
         </view>
         <view class="list-item-chat">
           <view class="upper">
@@ -31,9 +30,11 @@ export default {
   name: 'ChatList',
 
   setup() {
+    // 相应式引用 用来包装基础数据类型 使其成为响应式数据
     const chatlist = ref([]);
 
     const urlResolve = (imgurl) => {
+      // 知识点：模板字符串 将变量插入字符串
       return `../../static/test_imgs/${imgurl}`;
     }
 
@@ -41,9 +42,8 @@ export default {
       chatlist.value = datas.chatList();
       // 左边的是这个的chatlist 右边的是data.js中的chatlist
 
-      for( let i = 0; i < chatlist.value.length; i++) {
-        chatlist.value[i].imgurl = urlResolve(chatlist.value[i].imgurl);
-        console.log(chatlist.value[i].imgurl); 
+      for ( let i of chatlist.value) {
+        i.imgurl = urlResolve(i.imgurl);
       }
       console.log(chatlist);
       // console.log(chatlist.value);

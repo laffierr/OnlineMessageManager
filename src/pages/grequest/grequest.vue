@@ -11,49 +11,92 @@
                     <span>准入请求</span>
                 </view>
             </template> 
-
-
         </top-bar>
 
         <view class="main">
             <!-- 循环体 -->
-            <view class="info head">
-                <!-- <view class="title">头像</view> -->
-                <view class="head">
-                    <img src="../../static/test_imgs/10.jpg" mode="widthFix" alt="用户头像" @click="select"/>
-                    <!-- <img :src="path" mode="widthFix" alt="用户头像" @click="select"/> -->
-                    <!-- <ksp-cropper mode="free" :width="200" :height="140" :maxWidth="1024" :maxHeight="1024" :url="url" @cancel="oncancel" @ok="onok"></ksp-cropper> -->
-                </view>
-                <view class="name">
-                    woSun
-                </view>
-                <view class="letin">
-                    <!-- <i class="iconfont icon-arrow-right-bold"></i> -->
-                    <div class="pushable true">
-                        <span class="shadow"></span>
-                        <span class="edge"></span>
-                        <span class="front">批准</span>
-                    </div>
-                    <div class="pushable false">
-                        <span class="shadow"></span>
-                        <span class="edge"></span>
-                        <span class="front">拒绝</span>
-                    </div>
+
+            <view class="list" v-for="item in requestList" :key="item.id">
+                <view class="info head">
+                    <!-- <view class="title">头像</view> -->
+                    <view class="head">
+                        <!-- <img src="../../static/test_imgs/10.jpg" mode="widthFix" alt="用户头像" @click="select"/> -->
+                        <img :src="item.url" mode="widthFix" alt="用户头像" @click="select"/>
+                    </view>
+                    <view class="name">
+                        <!-- woSun -->
+                        {{ item.name }}
+                    </view>
+                    <view class="letin">
+                        <!-- <i class="iconfont icon-arrow-right-bold"></i> -->
+                        <div class="pushable true">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front">批准</span>
+                        </div>
+                        <div class="pushable false">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front">拒绝</span>
+                        </div>
+                    </view>
                 </view>
             </view>
+
+
         </view>
     </view>
 </template>
 
 <script>
     import { View } from '@dcloudio/uni-h5';
-    import TopBar from  '../../components/TopBar.vue';
+    // import TopBar from  '../../components/TopBar.vue';
+    import TopBar from "../../components/TopBar.vue";
+
+    import datas from "../../commons/js/datas.js";
+    import { ref, onMounted } from "vue";
 
     export default {
         components: {
             TopBar,
-            View
+            View,
         },
+        setup() {
+            // 先创建一个接受信息的响应式变量
+            const requestList = ref([]);
+
+            // const components = {
+            //     TopBar,
+            //     View 
+            // };
+
+            const urlResolve = (imgurl) => {
+                // 模板字符串 将变量插入字符串
+                return `../../static/test_imgs/${imgurl}`;
+            };
+
+            const getinfo = () => {
+                requestList.value = datas.requestList();
+
+                // 替换对象中的图片地址
+                for (let i of requestList.value) {
+                    i.imgurl = urlResolve(i.imgurl);
+                }
+            };
+
+            onMounted (() => {
+                getinfo();
+            });
+
+            return {
+                components: {
+                    TopBar,
+                    View,
+                },
+                requestList,
+            };
+        },
+
         onLoad() {
             uni.setNavigationBarTitle({
                 title: '群组准入请求',
@@ -76,7 +119,7 @@
     .info {
         display: flex;
         height: 148rpx;
-        padding: 12rpx $uni-spacing-col-base;
+        padding: 12rpx $uni-spacing-col-sm 12rpx $uni-spacing-col-base;
         align-items: center;
     
         .head {
@@ -94,7 +137,7 @@
 
         .name {
             flex: 1;
-            margin-left: $uni-spacing-col-lg;
+            margin-left: $uni-spacing-col-base;
             font-size: 40rpx;
             line-height: 112rpx;
             overflow: hidden;
@@ -107,6 +150,10 @@
             display: flex;
             justify-content: space-between;
 
+            :first-child {
+                margin-right: 10rpx;
+            }
+
             .pushable {
                 // 因为其背景已经改成透明（此组件背景弃置） 因此圆角也不用设置
                 // border-radius: 12rpx;
@@ -114,7 +161,6 @@
                 padding: 0;
                 cursor: pointer;
                 outline-offset: 4px;
-                margin-right: 20rpx;
 
                 position: relative;
                 background: transparent;
@@ -127,7 +173,6 @@
 
                 // 删除用户的长按选择
                 user-select: none;
-
             }
             .shadow {
                 position: absolute;

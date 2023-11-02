@@ -62,45 +62,77 @@
 <script>
 import { View } from '@dcloudio/uni-h5';
 import TopBar from '../../components/TopBar.vue';
+import { ref } from 'vue';
 
 export default {
-    data() {
-        return {
-            url: "",
-            path: ""
-        }
-    },
+    // data() {
+    //     return {
+    //         url: "",
+    //         path: ""
+    //     }
+    // },
     components: {
         TopBar,
         View
     },
-    set() {
+    setup() {
+        var url = ref('')
+        var path = ref('')
+
+        const select = () => {
+            uni.chooseImage({
+                count:1, //默认是9
+                sourceType:['album','carema'],
+                success: (rst) => {
+                    // 设置url的值，显示控件
+                    url.value = rst.tempFilePaths[0];
+                }
+            });
+        };
+
+        const onok = (ev) => {
+            url.value = "";
+            path.value = ev.path;
+        };
+
+        const oncancel = () => {
+            // url设置为空，隐藏控件
+            url.value = "";
+        };
+        
+        return {
+            url,
+            path,
+            select,
+            onok,
+            oncancel,
+        };
     },
     onLoad() {
         uni.setNavigationBarTitle({
             title: '用户信息',
         });
     },
-    methods: {
-        select() {
-            uni.chooseImage({
-                count:1, //默认是9
-                sourceType:['album','carema'],
-                success: (rst) => {
-                    // 设置url的值，显示控件
-                    this.url = rst.tempFilePaths[0];
-                }
-            });
-        },
-        onok(ev) {
-            this.url = "";
-            this.path = ev.path;
-        },
-        oncancel() {
-            // url设置为空，隐藏控件
-            this.url = "";
-        }
-    }
+    // methods: {
+    //     select() {
+    //         uni.chooseImage({
+    //             count:1, //默认是9
+    //             sourceType:['album','carema'],
+    //             success: (rst) => {
+    //                 // 设置url的值，显示控件
+    //                 this.url = rst.tempFilePaths[0];
+    //             }
+    //         });
+    //     },
+    //     onok(ev) {
+    //         this.url = "";
+    //         this.path = ev.path;
+    //     },
+    //     oncancel() {
+    //         // url设置为空，隐藏控件
+    //         this.url = "";
+    //     }
+    // }
 }
 </script>
 

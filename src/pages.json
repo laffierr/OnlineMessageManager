@@ -36,7 +36,12 @@
 		},
 
 
-
+		{
+			"path":"pages/chat/chat",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
 
 
 		{
