@@ -89,10 +89,10 @@
             });
 
             return {
-                components: {
-                    TopBar,
-                    View,
-                },
+                // components: {
+                //     TopBar,
+                //     View,
+                // },
                 requestList,
             };
         },
