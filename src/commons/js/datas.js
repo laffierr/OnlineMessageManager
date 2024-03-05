@@ -52,13 +52,23 @@ const component = (date) => {
 
 export default {
   getDate,
-  chatList: () => {
-    let chatListArr =[
+  friend: () => {
+    let friendArr =[
+      {
+        id:1,
+        imgurl: '8.jpg',
+        tip:1,
+        name: 'wyz',
+        email: '123@gmail.com',
+        time: component(new Date()),
+        last: 'sfd',
+      },
       {
         id:2,
         imgurl: '10.jpg',
         tip:2,
         name: 'fyb',
+        email: '456@gmail.com',
         // time: getDate(new Date()),
         time: component(new Date()),
         last: 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
@@ -68,6 +78,7 @@ export default {
         imgurl: '11.jpg',
         tip:2,
         name: 'fyb2',
+        email: '789@gmail.com',
         time: component(new Date()),
         last: 'ssssssssssssssssssssssssssss',
       },
@@ -76,6 +87,7 @@ export default {
         imgurl: '12.jpg',
         tip:2,
         name: 'zjz',
+        email: '101213@gmail.com',
         time: component(new Date()),
         last: 'ssssssssssssssssssss',
       },
@@ -84,22 +96,16 @@ export default {
         imgurl: '13.jpg',
         tip:2,
         name: 'zj2',
+        email: '1223@gmail.com',
         time: component(new Date()),
         last: 'sssssssssssssssssssssss',
-      },
-      {
-        id:6,
-        imgurl: '14.jpg',
-        tip:2,
-        name: 'wyz',
-        time: component(new Date()),
-        last: 'ssssssssssss',
       },
       {
         id:7,
         imgurl: '9.jpg',
         tip:2,
         name: 'zzq',
+        email: '11223@gmail.com',
         time: component(new Date()),
         last: 'sssssssssssssssssssssssssssssss',
       },
@@ -108,83 +114,33 @@ export default {
         imgurl: '4.jpg',
         tip:1,
         name: 'zzq2',
+        email: '123333@gmail.com',
         time: component(new Date()),
         last: 'sssssssssssssssssssssssssssaaaaaaassss',
       },
-      {
-        id:9,
-        imgurl: '4.jpg',
-        tip:1,
-        name: 'zzq2',
-        time: component(new Date()),
-        last: 'sssssssssssssssssssssssssssaaaaaaassss',
-      },
-      {
-        id:10,
-        imgurl: '4.jpg',
-        tip:1,
-        name: 'zzq2',
-        time: component(new Date()),
-        last: 'sssssssssssssssssssssssssssaaaaaaassss',
-      },
-      {
-        id:11,
-        imgurl: '4.jpg',
-        tip:1,
-        name: 'zzq2',
-        time: component(new Date()),
-        last: 'sssssssssssssssssssssssssssaaaaaaassss',
-      },
-      {
-        id:12,
-        imgurl: '4.jpg',
-        tip:1,
-        name: 'zzq2',
-        time: component(new Date()),
-        last: 'sssssssssssssssssssssssssssaaaaaaassss',
-      },
-      {
-        id:13,
-        imgurl: '4.jpg',
-        tip:1,
-        name: 'zzq2',
-        time: component(new Date()),
-        last: 'sssssssssssssssssssssssssssaaaaaaassss',
-      },
-      {
-        id:14,
-        imgurl: '4.jpg',
-        tip:1,
-        name: 'zzq2',
-        time: component(new Date()),
-        last: 'sssssssssssssssssssssssssssaaaaaaassss',
-      },
-      {
-        id:15,
-        imgurl: '4.jpg',
-        tip:1,
-        name: 'zzq2',
-        time: component(new Date()),
-        last: 'sssssssssssssssssssssssssssaaaaaaassss',
-      },
-      {
-        id:16,
-        imgurl: '4.jpg',
-        tip:1,
-        name: 'zzq2',
-        time: component(new Date()),
-        last: 'sssssssssssssssssssssssssssaaaaaaassss',
-      },
-      {
-        id:17,
-        imgurl: '4.jpg',
-        tip:1,
-        name: 'zzq2',
-        time: component(new Date()),
-        last: 'sssssssssssssssssssssssssssaaaaaaassss',
-      },
-
     ];
-    return chatListArr;
+    return friendArr;
+  },
+  //好友列表
+  isFriend: () => {
+    let isFriend=[
+      {
+        userid:1,
+        friend:2,
+      },
+      {
+        userid:1,
+        friend:5,
+      },
+      {
+        userid:1,
+        friend:6,
+      },
+      {
+        userid:1,
+        friend:8,
+      },
+    ]
+    return isFriend;
   }
 }

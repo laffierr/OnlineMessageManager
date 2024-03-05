@@ -8,58 +8,50 @@
       <template v-slot:left>
         <view class="topbar-left">
           <!-- <image src="../../static/test_imgs/3.jpg"></image> -->
-          <input type="search" placeholder="搜索用户/群" class="search" @input="search">
+          <input type="search" placeholder="搜索用户/群" class="search" @input="search"/>
         </view>
       </template>
 
       <template v-slot:right>
         <view class="topbar-right">
           <!-- <image src="../../static/test_imgs/4.jpg"></image> -->
-          <view class="topbar-cancel">取消</view>
+          <view class="topbar-cancel" @tap="back">取消</view>
         </view>
       </template>
     </top-bar>
 
     <view class="content">
       <view class="users result">
-        <h1 class="title">用户</h1>
+        <h1 class="title" v-if="userarr.length > 0">用户</h1>
         
         <!-- 循环体 -->
-        <view class="list user">
+        <view class="list user" v-for="(item,index) in userarr" :key="index">
           <view class="pic">
-            <image src="../../static/test_imgs/10.jpg" alt="pic"/>
+            <image :src="item.imgurl" alt="pic"/>
           </view>
           <view class="names">
-            <view class="name">fyb</view>
-            <view class="email">1841025882@qq.com</view>
+            <view class="name" v-html = "item.name"></view>
+            <view class="email" v-html = "item.email"></view>
           </view>
-          <view class="button">发送</view>
-        </view>
-        <view class="list user">
-          <view class="pic">
-            <image src="../../static/test_imgs/10.jpg" alt="pic"/>
-          </view>
-          <view class="names">
-            <view class="name">fyb</view>
-            <view class="email">1841025882@qq.com</view>
-          </view>
-          <view class="button">发送</view>
+          <view class="button-rt send" v-if="item.tip == 1">发消息</view>
+          <view class="button-rt add" v-if="item.tip == 0">加好友</view>
         </view>
       </view>
-
       <view class="groups result">
         <h1 class="title">群组</h1>
         
         <!-- 循环体 -->
+        <!-- <view class="list group" v-for="(item,index) in userarr" :key="index"> -->
         <view class="list group">
           <view class="pic">
             <image src="../../static/test_imgs/10.jpg" alt="pic"/>
+            <!-- <image :src="item.imgurl" alt="pic"/> -->
           </view>
           <view class="names">
             <view class="name">fy群</view>
             <view class="email">1841025882@qq.com</view>
           </view>
-          <view class="button">发送</view>
+          <view class="button-rt send">发消息</view>
         </view>
         <view class="list group">
           <view class="pic">
@@ -69,7 +61,7 @@
             <view class="name">fyb</view>
             <view class="email">1841025882@qq.com</view>
           </view>
-          <view class="button">发送</view>
+          <view class="button-rt add">进入</view>
         </view>
       </view>
     </view>
@@ -77,40 +69,63 @@
 
 <script>
 import TopBar from '../../components/TopBar.vue';
-// import datas from '../../commons/js/datas'
+import datas from '../../commons/js/datas'
 export default {
   components: {
     TopBar
+  },
+  data() {
+    return {
+      userarr:[],
+    }
+  },
+  methods: {
+    // 获取搜索的值
+    search:function(e) {
+      this.userarr =[];
+      let searchval = e.detail.value;
+      if(searchval.length > 0) {
+        this.searchUser(searchval);
+      }
+    },
+        // 判断搜索到的用户是否是好友
+        isFriend:function(e) {
+      let tip = 0;
+      let arr = datas.isFriend();
+      for (let i=0; i<arr.length; i++) {
+        if (arr[i].friend == e.id) {
+          tip = 1;
+        }
+      }
+      e.tip = tip;
+      // return false;
+      console.log(e.tip);
+    },
+    // 实现用户搜索功能(匹配用户的名字和邮箱)
+    searchUser:function(e) {
+      let arr = datas.friend();
+
+      let exp = eval("/"+e+"/g");
+
+      for (let i=0; i<arr.length;i++) {
+        if (arr[i].name.search(e) != -1 || arr[i].email.search(e) != -1) {
+
+          this.isFriend(arr[i]);
+
+          // 实现图片匹配 两种都可以
+          arr[i].imgurl = `../../static/test_imgs/${arr[i].imgurl}`;
+          // arr[i].imgurl = `../../static/test_imgs/` + arr[i].imgurl;
+
+          // 实现被搜索的文字高亮
+          arr[i].name = arr[i].name.replace(exp,`<span style="color:#4AAAFF">${e}</span>`);
+          arr[i].email = arr[i].email.replace(exp,`<span style="color:#4AAAFF;">${e}</span>`);
+
+          this.userarr.push(arr[i]);
+        }
+      }
+    },
+
   }
-  // setup() {
-  //   const chatlist = ref([]);
-
-  //   const urlResolve = (imgurl) => {
-  //     return `../../static/test_imgs/${imgurl}`;
-  //   }
-
-  //   const getinfo = () => {
-  //     chatlist.value = datas.chatList();
-  //     // 左边的是这个的chatlist 右边的是data.js中的chatlist
-
-  //     for( let i = 0; i < chatlist.value.length; i++) {
-  //       chatlist.value[i].imgurl = urlResolve(chatlist.value[i].imgurl);
-  //       console.log(chatlist.value[i].imgurl); 
-  //     }
-  //     console.log(chatlist);
-  //     // console.log(chatlist.value);
-  //     // console.log(Array.isArray(chatlist));
-  //   }
-
-  //   onMounted( ()=> {
-  //     getinfo();
-  //   });
-
-  //   return {
-  //     chatlist,
-  //   };
-
-  // },
 }
 </script>
 
@@ -148,6 +163,7 @@ export default {
   .names {
     padding-left:$uni-spacing-col-base;
     float: left;
+    font-weight: 400;
     // padding-left: 120rpx;
     .name {
       font-size: 36rpx;
@@ -159,24 +175,28 @@ export default {
       color: $uni-text-color;
       line-height: 28rpx;
     }
-
-
-    font-weight: 400;
-
   }
-  .button {
+  .button-rt {
     float: right; 
     width: 120rpx;
     height: 48rpx;
-    background: $uni-color-primary;
     border-radius: 24rpx;
     font-size: $uni-font-size-sm;
-    color: $uni-text-color;
     line-height: 48rpx;
     margin-top: 16rpx;
     text-align: center;
   }
+  .send {
+    background: rgba(74,170,255,0.9);
+    color: $uni-text-color;
+  }
+  .add {
+    background: rgba(74,170,255,0.1);
+    color: $uni-color-primary;
+  }
 }
+
+
 
 .user {
   // height: 96rpx;

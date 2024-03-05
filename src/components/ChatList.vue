@@ -1,7 +1,7 @@
 <template>
   <view class="content">
     <view class="apply"></view>
-    <view class="list" v-for="item in chatlist" :key="item.id">
+    <view class="list" v-for="item in friend" :key="item.id">
 
       <!-- 循环体 -->
       <view class="list-item">
@@ -28,26 +28,26 @@
 import datas from '../commons/js/datas.js';
 import {ref, onMounted} from 'vue';
 export default {
-  name: 'ChatList',
+  name: 'chatList',
 
   setup() {
-    const chatlist = ref([]);
+    const friend = ref([]);
 
     const urlResolve = (imgurl) => {
       return `../../static/test_imgs/${imgurl}`;
     }
 
     const getinfo = () => {
-      chatlist.value = datas.chatList();
-      // 左边的是这个的chatlist 右边的是data.js中的chatlist
+      friend.value = datas.friend();
+      // 左边的是这个的friend 右边的是data.js中的friend
 
-      for( let i = 0; i < chatlist.value.length; i++) {
-        chatlist.value[i].imgurl = urlResolve(chatlist.value[i].imgurl);
-        console.log(chatlist.value[i].imgurl); 
+      for( let i = 0; i < friend.value.length; i++) {
+        friend.value[i].imgurl = urlResolve(friend.value[i].imgurl);
+        console.log(friend.value[i].imgurl); 
       }
-      console.log(chatlist);
-      // console.log(chatlist.value);
-      // console.log(Array.isArray(chatlist));
+      console.log(friend);
+      // console.log(friend.value);
+      // console.log(Array.isArray(friend));
     }
 
     onMounted( ()=> {
@@ -55,7 +55,7 @@ export default {
     });
 
     return {
-      chatlist,
+      friend,
     };
 
   },

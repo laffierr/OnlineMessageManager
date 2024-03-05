@@ -1,24 +1,24 @@
 <template>
   <view class="content">
     <!-- 使用 TopBar 组件，传递不同的属性 -->
-    <!-- <TopBar
+    <TopBar
       pageTitle="注册"
       leftEleType="back"
       rightELeType="close"
-    /> -->
+    />
     <top-bar>
-    <template v-slot:left>
-      <view class="topbar-left">
-        <image src="../../static/test_imgs/3.jpg"></image>
-      </view>
-    </template>
+      <template v-slot:left>
+        <view class="topbar-left">
+          <image src="../../static/test_imgs/3.jpg"></image>
+        </view>
+      </template>
 
-    <template v-slot:right>
-      <view class="topbar-right">
-        <image src="../../static/test_imgs/4.jpg"></image>
-      </view>
-    </template>
-  </top-bar>
+      <template v-slot:right>
+        <view class="topbar-right">
+          <image src="../../static/test_imgs/4.jpg"></image>
+        </view>
+      </template>
+    </top-bar>
 
     <view class="signin">
       <!-- <view class="sign">
@@ -26,11 +26,21 @@
       </view> -->
       <h1 class="title">Register</h1>
       <view class="inputs">
-        <input type="text" placeholder="用户名">
-        <input type="text" placeholder="邮箱">
-        <input type="password" placeholder="密码">
+        <view class="inputs-div">
+          <input type="text" placeholder="用户名" class="user" >
+          <view class="emply" v-if="emply">有人起了</view>
+        </view>
+        <view class="inputs-div"><!--  -->
+          <input type="text" placeholder="邮箱" class="email" @blur="checkEmail">
+          <view class="emply" v-if="emply">有人起了</view>
+          <view class="invalid" v-if="invalid">邮箱无效</view>
+        </view>
+        <view class="inputs-div">
+          <input type="password" placeholder="密码">
+          <!-- <view class="emply" v-if="emply" @tap="eyes">有人起了</view> -->
+        </view>
       </view>
-      <view class="sub">登录</view>
+      <view class="sub">注册</view>
     </view>
 
 
@@ -44,6 +54,43 @@ export default {
   components: {
     TopBar,
   },
+  data() {
+    return {
+      type: 'password',
+      invalid: false,
+      emply: false,
+    };
+  },
+  methods: {
+    // 密码显示
+    eyes: function() {
+      if (this.type === 'password') {
+        this.type = 'text';
+        // this.eyes =! this,eyes;
+        // 修改路径
+      } else {
+        this.type = 'password';
+        // this.eyes =! this.eyes;
+        // 修改路径
+      }
+    },
+    // 检测邮箱格式是否正确
+    checkEmail: function(e) {
+      this.email = e.detail.value;
+      console.log(this.email);
+      // var reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+      var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
+      if (this.email.length > 0) {
+        if (reg.test(this.email)) {
+          this.invalid = false;
+          console.log('邮箱格式正确');
+        } else {
+          this.invalid = true;
+          console.log('邮箱格式错误');
+        }
+      }
+    },
+  }
 };
 </script>
 
@@ -78,16 +125,48 @@ export default {
 
   .inputs{
     // margin-left: 36rpx;
-    input {
-      margin-top: 24rpx;
-      margin-right: 184rpx;
-      border-bottom: 1rpx solid #ccc;  
-      font-size: $uni-font-size-lg; 
-      color: $uni-text-color-grey;
-      height: 80rpx; 
-      line-height: 80rpx; 
+
+    .inputs-div {
+      position: relative;
+      input {
+        margin-top: 24rpx;
+        margin-right: 184rpx;
+        border-bottom: 1rpx solid #ccc;  
+        font-size: $uni-font-size-lg; 
+        color: $uni-text-color-grey;
+        height: 80rpx; 
+        line-height: 80rpx; 
+      }
+
+      .emply,.invalid {
+        position: absolute;
+        right: 0;
+        top: 0;
+        float: right;
+        line-height: 88rpx;
+        font-size: $uni-font-size-base;
+        font-weight: 500;
+        color: red;
+      }
+
+      .ok {
+        position: absolute;
+        right: 0;
+        top: 76rpx;
+        width: 42rpx;
+        height: 32rpx;
+      }
+
+      .eyes {
+        position: absolute;
+        right: 0;
+        top: 76rpx;
+        width: 42rpx;
+        height: 32rpx;
+      }
     }
   }
+
   .sub {
     float: right;
     margin-right: 182rpx;

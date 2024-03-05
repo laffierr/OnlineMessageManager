@@ -1,24 +1,24 @@
 <template>
   <view class="content">
-    <!-- <TopBar
+    <TopBar
       pageTitle="登录"
       leftEleType="close"
       rightEleType="register"
-    /> -->
-  <top-bar>
-    <template v-slot:left>
-      <view class="topbar-left">
-        <image src="../../static/test_imgs/1.jpg"></image>
-      </view>
-    </template>
+    />
+    <top-bar>
+      <template v-slot:left>
+        <view class="topbar-left">
+          <image src="../../static/test_imgs/1.jpg"></image>
+        </view>
+      </template>
 
-    <template v-slot:right>
-      <view class="topbar-right">
-        <!-- <image src="../../static/test_imgs/2.jpg"></image> -->
-        <view class="topbar-signin">注册</view>
-      </view>
-    </template>
-  </top-bar>
+      <template v-slot:right>
+        <view class="topbar-right">
+          <!-- <image src="../../static/test_imgs/2.jpg"></image> -->
+          <view class="topbar-signin">注册</view>
+        </view>
+      </template>
+    </top-bar>
     <view class="signin">
       <!-- <view class="sign">
         登录
@@ -28,9 +28,10 @@
       <!-- <h1 class="error">用户名或密码错误</h1> -->
       <!-- <h1 class="error" v-else>用户名或密码错误</h1> -->
       <view class="inputs">
-        <input type="text" placeholder="用户名/邮箱">
-        <input type="password" placeholder="密码">
+        <input type="text" placeholder="用户名/邮箱" class="user">
+        <input type="password" placeholder="密码" class="pw">
       </view>
+      <view class="tips">用户名或密码错误</view>
       <view class="sub">登录</view>
     </view>
   </view>
@@ -97,18 +98,31 @@ export default {
       line-height: 80rpx; 
     }
   }
+  .tips { 
+    font-size: $uni-font-size-lg; 
+    color: rgba(255, 67, 67, 0.856);
+    line-height: 56rpx; 
+    float: left;
+  }
 
   .sub {
     float: right;
-    margin-right: 182rpx;
-    // background: $uni-bg-color-grey;
-    border-radius: 6rpx;
+    width: 182rpx;
+    height: 80rpx;
+    text-align: center;
+    margin-top: 64rpx;
+    margin-right: 128rpx;
+    background: rgba(192, 192, 192, 0.295);
+    // border-radius: 6rpx;
     font-size: large;
     font-weight: bold;
     // text-align: center;
-    line-height: 96rpx;
+    line-height: 80rpx;
     color: #4d4d4d;
-    margin-top: 40rpx;
+
+    :hover {
+      background: $uni-bg-color-grey;
+    }
   }
 }
 </style>
