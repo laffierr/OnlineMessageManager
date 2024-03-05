@@ -1,21 +1,23 @@
 <template>
   <view class="content">
-    <TopBar
+    <!-- <TopBar
       pageTitle="登录"
       leftEleType="close"
       rightEleType="register"
-    />
+    /> -->
     <top-bar>
       <template v-slot:left>
         <view class="topbar-left">
-          <image src="../../static/test_imgs/1.jpg"></image>
+          <!-- <image src="../../static/test_imgs/1.jpg"></image> -->
+          <i class="iconfont icon-setting"></i>
+
         </view>
       </template>
 
       <template v-slot:right>
         <view class="topbar-right">
           <!-- <image src="../../static/test_imgs/2.jpg"></image> -->
-          <view class="topbar-signin">注册</view>
+          <navigator url="../register/register" class="topbar-signin">注册</navigator>
         </view>
       </template>
     </top-bar>
@@ -39,20 +41,26 @@
 </template>
 
 <script>
-import { View } from '@dcloudio/uni-h5';
+import { Navigator, View } from '@dcloudio/uni-h5';
 import TopBar from '../../components/TopBar.vue';
 
 export default {
   components: {
     TopBar,
-    View
-},
+    View,
+    Navigator
+  },
   Set() {
     const goBack = () => {
 
     }
 
     const search = () => {}
+  },
+  onLoad() {
+    uni.setNavigationBarTitle({
+        title: '用户登录',
+    });
   }
 
 }
@@ -93,7 +101,7 @@ export default {
       margin-right: 184rpx;
       border-bottom: 1rpx solid #ccc;  
       font-size: $uni-font-size-lg; 
-      color: $uni-text-color-grey;
+      color: #4d4d4d;
       height: 80rpx; 
       line-height: 80rpx; 
     }

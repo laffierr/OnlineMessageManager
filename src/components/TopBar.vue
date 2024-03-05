@@ -16,19 +16,19 @@
 <script>
 export default {
   name: 'TopBar',
-  props: {
+  // props: {
 
-    // 左侧按钮类型
-    leftEleType: {
-      type: String,
-      required: true,
-    },
-    // 右侧按钮类型
-    rightELeType: {
-      type: String,
-      required: true,
-    },
-  },
+  //   // 左侧按钮类型
+  //   leftEleType: {
+  //     type: String,
+  //     required: true,
+  //   },
+  //   // 右侧按钮类型
+  //   rightELeType: {
+  //     type: String,
+  //     required: true,
+  //   },
+  // },
 
 };
 </script>

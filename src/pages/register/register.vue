@@ -1,26 +1,27 @@
 <template>
   <view class="content">
     <!-- 使用 TopBar 组件，传递不同的属性 -->
-    <TopBar
+    <!-- <TopBar
       pageTitle="注册"
       leftEleType="back"
       rightELeType="close"
-    />
+    /> -->
     <top-bar>
-      <template v-slot:left>
-        <view class="topbar-left">
-          <image src="../../static/test_imgs/3.jpg"></image>
-        </view>
-      </template>
+    <template v-slot:left>
+      <view class="topbar-left">
+        <!-- <image src="../../static/test_imgs/3.jpg"></image> -->
+        <navigator open-type="navigateBack" delta="1" animation-type="pop-out" animation-duration="300" class="iconfont icon-arrow-left-bold"></navigator>
+      </view>
+    </template>
 
-      <template v-slot:right>
-        <view class="topbar-right">
-          <image src="../../static/test_imgs/4.jpg"></image>
-        </view>
-      </template>
-    </top-bar>
+    <!-- <template v-slot:right>
+      <view class="topbar-right">
+        <i class="iconfont icon-close"></i>
+      </view>
+    </template> -->
+  </top-bar>
 
-    <view class="signin">
+    <view class="register">
       <!-- <view class="sign">
         登录
       </view> -->
@@ -90,7 +91,13 @@ export default {
         }
       }
     },
-  }
+  },
+  onLoad() {
+    uni.setNavigationBarTitle({
+        title: '用户注册',
+        // 动态生成需要路由守卫
+    });
+  },
 };
 </script>
 
@@ -105,7 +112,7 @@ export default {
   padding-bottom: $uni-spacing-col-base;
 }
 
-.signin {
+.register {
   padding-top: 328rpx;
   // padding-left: 24rpx;
   margin-left: $uni-spacing-col-lg;
