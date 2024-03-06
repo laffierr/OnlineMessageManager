@@ -2,6 +2,14 @@
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		
 	
+
+		{
+			"path":"pages/chat/chat",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+
 	
 		{
 			"path": "pages/signin/signin",
@@ -29,14 +37,6 @@
 
 		{
 			"path":"pages/register/register",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-
-
-		{
-			"path":"pages/chat/chat",
 			"style": {
 				"navigationStyle": "custom"
 			}
