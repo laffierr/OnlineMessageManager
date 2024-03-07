@@ -60,6 +60,18 @@ import datas from '../../commons/js/datas.js';
 import { getDate, component} from '../../commons/js/myFun.js';
 
 
+
+
+// 导入 axios 库
+import axios from 'axios';
+
+
+
+// 调用发送请求的函数
+
+
+
+
     export default {
         components: {
             TopBar,
@@ -79,6 +91,7 @@ import { getDate, component} from '../../commons/js/myFun.js';
         },
         created() {
             this.getMsg();
+            this.sendRequest();
         },
         methods: {
             getMsg() {
@@ -117,8 +130,25 @@ import { getDate, component} from '../../commons/js/myFun.js';
                 } else {
                     return '';
                 }
-            }
+            },
 
+            // 定义发送请求的函数
+            sendRequest() {
+                console.log('check');
+                // 准备发送的数据，如果有的话
+                const data = { }; // 这里可以放置你要发送的数据，例如：{ key1: value1, key2: value2 }
+
+                // 发送 POST 请求
+                axios.post('/abc', data)
+                    .then(response => {
+                        // 请求成功，可以在这里处理返回的数据
+                        console.log("请求成功");
+                    })
+                    .catch(error => {
+                        // 请求失败，可以在这里处理错误信息
+                        console.error("请求失败:", error);
+                    });
+            },
         },
         // setup() {
         //     onMounted(() => {
