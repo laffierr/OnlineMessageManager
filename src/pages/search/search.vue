@@ -82,14 +82,15 @@ export default {
   methods: {
     // 获取搜索的值
     search:function(e) {
+      console.log(e.detail);
       this.userarr =[];
       let searchval = e.detail.value;
       if(searchval.length > 0) {
         this.searchUser(searchval);
       }
     },
-        // 判断搜索到的用户是否是好友
-        isFriend:function(e) {
+    // 判断搜索到的用户是否是好友
+    isFriend:function(e) {
       let tip = 0;
       let arr = datas.isFriend();
       for (let i=0; i<arr.length; i++) {
@@ -98,13 +99,11 @@ export default {
         }
       }
       e.tip = tip;
-      // return false;
       console.log(e.tip);
     },
     // 实现用户搜索功能(匹配用户的名字和邮箱)
     searchUser:function(e) {
       let arr = datas.friend();
-
       let exp = eval("/"+e+"/g");
 
       for (let i=0; i<arr.length;i++) {

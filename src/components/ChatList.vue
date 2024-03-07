@@ -27,13 +27,15 @@
 <script>
 import datas from '../commons/js/datas.js';
 import { getDate, component } from '../commons/js/myFun.js';
-
+// import axios from 'axios';
 import {ref, onMounted} from 'vue';
 export default {
   name: 'chatList',
 
   setup() {
     const friend = ref([]);
+    // 从后端获取数据
+    // var datas = [];
 
     const urlResolve = (imgurl) => {
       return `../../static/test_imgs/${imgurl}`;
@@ -42,18 +44,37 @@ export default {
     const getinfo = () => {
       friend.value = datas.friend();
       // 左边的是这个的friend 右边的是data.js中的friend
-
+      // friend.value = datas.data;
       for( let i = 0; i < friend.value.length; i++) {
         friend.value[i].imgurl = urlResolve(friend.value[i].imgurl);
         friend.value[i].time = getDate(new Date(friend.value[i].time));
       }
-      // console.log(friend);
-      // console.log(friend.value);
-      // console.log(Array.isArray(friend));
     }
 
+    // let sendRequest = () => {
+    //   console.log('checksendrequest');
+    //   // 准备发送的数据，如果有的话
+
+    //   // 发送 POST 请求
+    //   axios.get('http://localhost:63040/abc')
+    //     .then(response => {
+    //       // 请求成功，可以在这里处理返回的数据
+          
+    //       datas = response.data;
+    //       console.log(datas.data);
+    //       getinfo();
+    //     })
+    //     .catch(error => {
+    //       // 请求失败，可以在这里处理错误信息
+    //       console.error("请求失败:", error);
+    //     });
+    // }
+
     onMounted( ()=> {
+      
+      // sendRequest();
       getinfo();
+
     });
 
     return {

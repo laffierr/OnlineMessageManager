@@ -19,9 +19,9 @@
         </top-bar>
     </view>
 
-    <ScrollView scroll-y="true" scroll-with-animation="true" class="main">
+    <ScrollView scroll-y="true" scroll-with-animation="true" class="main" :scroll-into-view="scrollTo">
         <view class="messages">
-            <view class="message" v-for="(item,index) in messages" :key="index">
+            <view class="message" v-for="(item,index) in messages" :key="index" :id="'msg' + item.tip">
                 <view class="messageTime" v-if="item.time">{{ item.time }}</view>
                 <!-- <view class="messageTime">{{ item.time }}</view> -->
                 <view class="chat chatL" v-if="item.id == 1">
@@ -51,6 +51,9 @@
         </view>
     </ScrollView>
 
+    <submit>
+
+    </submit>
 </template>
 
 <script>
@@ -58,40 +61,26 @@ import { ScrollView } from "@dcloudio/uni-h5";
 import TopBar from "../../components/TopBar.vue";
 import datas from '../../commons/js/datas.js';
 import { getDate, component} from '../../commons/js/myFun.js';
-
-
-
-
+import submit from '../../components/submit.vue';
 // 导入 axios 库
 import axios from 'axios';
-
-
-
-// 调用发送请求的函数
-
-
-
 
     export default {
         components: {
             TopBar,
-            ScrollView
+            ScrollView,
+            submit,
         },
-        // setup() {
-
-        //     return {
-                
-        //     };
-        // },
         data() {
             return {
                 messages: [],
                 oldTime: new Date(),
+                scrollTo: '',
             }
         },
         created() {
             this.getMsg();
-            this.sendRequest();
+            // this.sendRequest();
         },
         methods: {
             getMsg() {
@@ -116,6 +105,10 @@ import axios from 'axios';
                     }
                     this.messages.unshift(message[i]);
                 }
+                this.$nextTick(function() {
+                    this.scrollTo = 'msg' + this.messages[this.messages.length - 1].tip;
+                
+                })
             },
             // 比较本条消息和上条的时间戳，如果时间差小于五分钟则不显示本条消息的时间
             compareTime(old,now) {
@@ -133,29 +126,24 @@ import axios from 'axios';
             },
 
             // 定义发送请求的函数
-            sendRequest() {
-                console.log('check');
-                // 准备发送的数据，如果有的话
-                const data = { }; // 这里可以放置你要发送的数据，例如：{ key1: value1, key2: value2 }
+            // sendRequest() {
+            //     console.log('check');
+            //     // 准备发送的数据，如果有的话
+            //     const data = { }; // 这里可以放置你要发送的数据，例如：{ key1: value1, key2: value2 }
 
-                // 发送 POST 请求
-                axios.post('/abc', data)
-                    .then(response => {
-                        // 请求成功，可以在这里处理返回的数据
-                        console.log("请求成功");
-                    })
-                    .catch(error => {
-                        // 请求失败，可以在这里处理错误信息
-                        console.error("请求失败:", error);
-                    });
-            },
+            //     // 发送 POST 请求
+            //     axios.post('http://localhost:63040/abc', data)
+            //         .then(response => {
+            //             // 请求成功，可以在这里处理返回的数据
+            //             console.log("请求成功");
+            //         })
+            //         .catch(error => {
+            //             // 请求失败，可以在这里处理错误信息
+            //             console.error("请求失败:", error);
+            //         });
+            // },
         },
-        // setup() {
-        //     onMounted(() => {
-        //         this.getMsg();
-        //     });
-        //     return {};
-        // }
+
     };
 </script >
 
@@ -192,7 +180,6 @@ import axios from 'axios';
                     border-radius: 20rpx;
 
                     position: relative;
-
 
                     .info {
                         display: flex;
