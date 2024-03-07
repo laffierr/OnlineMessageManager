@@ -26,6 +26,8 @@
 
 <script>
 import datas from '../commons/js/datas.js';
+import { getDate, component } from '../commons/js/myFun.js';
+
 import {ref, onMounted} from 'vue';
 export default {
   name: 'chatList',
@@ -43,9 +45,9 @@ export default {
 
       for( let i = 0; i < friend.value.length; i++) {
         friend.value[i].imgurl = urlResolve(friend.value[i].imgurl);
-        console.log(friend.value[i].imgurl); 
+        friend.value[i].time = getDate(new Date(friend.value[i].time));
       }
-      console.log(friend);
+      // console.log(friend);
       // console.log(friend.value);
       // console.log(Array.isArray(friend));
     }

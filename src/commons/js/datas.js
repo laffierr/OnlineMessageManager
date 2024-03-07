@@ -1,57 +1,7 @@
-const getDate = (date) => {
-  // const date = new Date();
-
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = (date.getDate()).toString().padStart(2, '0');
-  const hours = (date.getHours()).toString().padStart(2, '0');
-  const minutes = (date.getMinutes()).toString().padStart(2, '0');
-  // const seconds = (date.getSeconds()).toString().padStart(2, '0');
-
-  // const fDate = `${month}/${day} ${hours}:${minutes}:${seconds}`;
-  const fDate = `${month}/${day} ${hours}:${minutes}`;
-
-  return fDate;
-};
-
-
-const component = (date) => {
-  let old = new Date(date);
-  let now = new Date();
-
-  let d = old.getTime();
-  let h = (old.getHours()).toString().padStart(2, '0');
-  let m = (old.getMinutes()).toString().padStart(2, '0');
-  let Y = old.getFullYear();
-  let M = old.getMonth() + 1;
-  let D = (old.getDate()).toString().padStart(2, '0');
-
-  let nd = now.getTime();
-  let nh = (now.getHours()).toString().padStart(2, '0');;
-  let nm = (now.getMinutes()).toString().padStart(2, '0');
-  let nY = now.getFullYear()
-  let nM = now.getMonth() + 1;
-  let nD = (now.getDate()).toString().padStart(2, '0');
-
-  if( D === nD && M === nM && Y === nY) {
-    return `${h}:${m}`;
-    // 返回小时和分钟
-  }
-  // else if (D + 1 == nD && M === nM && Y === nY) {
-  else if (Number(D) + 1 == Number(nD) && M === nM && Y === nY) {
-    return `昨天 ${h}:${m}`
-  }
-  else {
-    console.log(D);
-    console.log(nD);
-    console.log(typeof Number(D))
-    return `${Y}/${M}/${D}`
-  }
-  
-}
-
+import {getDate,component} from './myFun.js';
 
 export default {
-  getDate,
+  // getDate,
   friend: () => {
     let friendArr =[
       {
@@ -60,7 +10,8 @@ export default {
         tip:1,
         name: 'wyz',
         email: '123@gmail.com',
-        time: component(new Date()),
+        // 给出十八小时前的时间戳
+        time: new Date() - 1000 * 60 * 60 * 18,
         last: 'sfd',
       },
       {
@@ -70,7 +21,7 @@ export default {
         name: 'fyb',
         email: '456@gmail.com',
         // time: getDate(new Date()),
-        time: component(new Date()),
+        time: new Date() - 1000 * 60 * 60 * 18,
         last: 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
       },
       {
@@ -79,7 +30,7 @@ export default {
         tip:2,
         name: 'fyb2',
         email: '789@gmail.com',
-        time: component(new Date()),
+        time: new Date(),
         last: 'ssssssssssssssssssssssssssss',
       },
       {
@@ -88,7 +39,7 @@ export default {
         tip:2,
         name: 'zjz',
         email: '101213@gmail.com',
-        time: component(new Date()),
+        time: new Date(),
         last: 'ssssssssssssssssssss',
       },
       {
@@ -97,7 +48,7 @@ export default {
         tip:2,
         name: 'zj2',
         email: '1223@gmail.com',
-        time: component(new Date()),
+        time: new Date(),
         last: 'sssssssssssssssssssssss',
       },
       {
@@ -106,7 +57,7 @@ export default {
         tip:2,
         name: 'zzq',
         email: '11223@gmail.com',
-        time: component(new Date()),
+        time: new Date(),
         last: 'sssssssssssssssssssssssssssssss',
       },
       {
@@ -115,7 +66,7 @@ export default {
         tip:1,
         name: 'zzq2',
         email: '123333@gmail.com',
-        time: component(new Date()),
+        time: new Date(),
         last: 'sssssssssssssssssssssssssssaaaaaaassss',
       },
     ];
@@ -143,6 +94,51 @@ export default {
     ]
     return isFriend;
   },
+  message:function(){
+    let messages = [
+      {
+        id:1,
+        imgurl: '10.jpg',
+        message: '消息测试',
+        types: 0,       // 类型：0文字 1图片 2音频
+        time: new Date(),    // 发送时间
+        tip: 0,     // 消息本身的id
+      },
+      {
+        id:0 ,
+        imgurl: '8.jpg',
+        message: '13.jpg',
+        types: 1,       // 类型：0文字 1图片 2音频
+        time: new Date(),    // 发送时间
+        tip: 1,
+      },
+      {
+        id:1,
+        imgurl: '10.jpg',
+        message: '3.jpg',
+        types: 1,       // 类型：0文字 1图片 2音频
+        time: new Date(),    // 发送时间
+        tip: 2,
+      },
+      {
+        id:1,
+        imgurl: '10.jpg',
+        message: '消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试',
+        types: 0,       // 类型：0文字 1图片 2音频
+        time: new Date(),    // 发送时间
+        tip: 3,
+      },
+      {
+        id:0,
+        imgurl: '8.jpg',
+        message: '消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试',
+        types: 0,       // 类型：0文字 1图片 2音频
+        time: new Date() - 1000 * 60 * 60 * 18,    // 发送时间
+        tip: 4,
+      },
+    ];
+    return messages;
+  },
   requestList: () => {
     let requestListArr = [
       {
@@ -157,5 +153,6 @@ export default {
       },
     ];
     return requestListArr;
-  }
+  },
+
 }
