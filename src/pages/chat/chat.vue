@@ -19,8 +19,8 @@
         </top-bar>
     </view>
 
-    <ScrollView scroll-y="true" scroll-with-animation="true" class="main" :scroll-into-view="scrollTo">
-        <view class="messages">
+    <scroll-view  class="main" scroll-y="true" scroll-with-animation="true" :scroll-into-view="scrollTo">
+        <view class="messages" :style="{paddingBottom:inputh+'px'}">
             <view class="message" v-for="(item,index) in messages" :key="index" :id="'msg' + item.tip">
                 <view class="messageTime" v-if="item.time">{{ item.time }}</view>
                 <!-- <view class="messageTime">{{ item.time }}</view> -->
@@ -49,11 +49,10 @@
                 </view>
             </view>
         </view>
-    </ScrollView>
+        <view class="padbt"></view>
+    </scroll-view>
 
-    <submit>
-
-    </submit>
+    <submit @inputs = "inputs" @heights="heights"/>
 </template>
 
 <script>
@@ -62,8 +61,8 @@ import TopBar from "../../components/TopBar.vue";
 import datas from '../../commons/js/datas.js';
 import { getDate, component} from '../../commons/js/myFun.js';
 import submit from '../../components/submit.vue';
-// 导入 axios 库
 import axios from 'axios';
+import { nextTick } from 'vue';
 
     export default {
         components: {
@@ -76,6 +75,8 @@ import axios from 'axios';
                 messages: [],
                 oldTime: new Date(),
                 scrollTo: '',
+                inputh: '56',
+                // datas: [],
             }
         },
         created() {
@@ -83,8 +84,10 @@ import axios from 'axios';
             // this.sendRequest();
         },
         methods: {
+            // 获取聊天数据
             getMsg() {
                 let message = datas.message();
+                // let message = this.datas.data.message();
                 for (let i = 0; i < message.length; i++) {
                     message[i].imgurl = `../../static/test_imgs/${message[i].imgurl}`;
                     // message[i].imgurl = `../../static/test_imgs/` + message[i].imgurl;
@@ -107,7 +110,7 @@ import axios from 'axios';
                 }
                 this.$nextTick(function() {
                     this.scrollTo = 'msg' + this.messages[this.messages.length - 1].tip;
-                
+                    // console.log(this.scrollTo);
                 })
             },
             // 比较本条消息和上条的时间戳，如果时间差小于五分钟则不显示本条消息的时间
@@ -124,6 +127,22 @@ import axios from 'axios';
                     return '';
                 }
             },
+            // 滚动到底部
+            scrollToBottom() {
+                this.$nextTick(function() {
+                    this.scrollTo = 'msg' + this.messages[this.messages.length - 1].tip;
+                    console.log(this.scrollTo);
+                })
+            },
+            // 获取输入框的值
+            inputs: function (e) {
+                console.log('输入框值为' + e);
+            },
+            // 获取下方高度
+            heights: function (e) {
+                this.inputh = e;
+                this.scrollToBottom();
+            },
 
             // 定义发送请求的函数
             // sendRequest() {
@@ -132,10 +151,14 @@ import axios from 'axios';
             //     const data = { }; // 这里可以放置你要发送的数据，例如：{ key1: value1, key2: value2 }
 
             //     // 发送 POST 请求
-            //     axios.post('http://localhost:63040/abc', data)
+            //     axios.post('http://localhost:63040/file', data)
             //         .then(response => {
             //             // 请求成功，可以在这里处理返回的数据
             //             console.log("请求成功");
+
+            //             this.datas = response.data;
+            //             console.log(this.datas.data);
+            //             getMsg();
             //         })
             //         .catch(error => {
             //             // 请求失败，可以在这里处理错误信息
@@ -151,11 +174,21 @@ import axios from 'axios';
 @import '../../commons/css/topbar.scss';
 
 .main {
-    padding-top: var(--status-bar-height);
+    // height: 100%;
+    // padding-top: var(--status-bar-height);
+    // padding-bottom: var(--status-bar-height);
     margin-top: 116rpx;
+    // margin-bottom: 116rpx;
+
+    // .padbt {
+    //     height: var(--status-bar-height);
+    //     width: 100%;
+    // }
     .messages{
+        // padding-bottom: 116rpx;
         .message {
             margin-bottom: 20rpx;
+
             .messageTime {
                 text-align: center;
                 // margin: 20rpx 0;

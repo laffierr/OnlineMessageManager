@@ -27,7 +27,7 @@
 <script>
 import datas from '../commons/js/datas.js';
 import { getDate, component } from '../commons/js/myFun.js';
-// import axios from 'axios';
+import axios from 'axios';
 import {ref, onMounted} from 'vue';
 export default {
   name: 'chatList',
@@ -56,7 +56,7 @@ export default {
     //   // 准备发送的数据，如果有的话
 
     //   // 发送 POST 请求
-    //   axios.get('http://localhost:63040/abc')
+    //   axios.get('http://localhost:63040/file')
     //     .then(response => {
     //       // 请求成功，可以在这里处理返回的数据
           
