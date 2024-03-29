@@ -19,7 +19,8 @@
         </top-bar>
     </view>
 
-    <scroll-view  class="main" scroll-y="true" scroll-with-animation="true" :scroll-into-view="scrollTo">
+    <!-- <scroll-view  class="main" scroll-y="true" scroll-with-animation="true" :scroll-into-view="scrollTo"> -->
+    <scroll-view  class="main" scroll-y="true" scroll-with-animation="true">
         <view class="messages" :style="{paddingBottom:inputh+'px'}">
             <view class="message" v-for="(item,index) in messages" :key="index" :id="'msg' + item.tip">
                 <view class="messageTime" v-if="item.time">{{ item.time }}</view>
@@ -91,26 +92,31 @@ import { nextTick } from 'vue';
                 for (let i = 0; i < message.length; i++) {
                     message[i].imgurl = `../../static/test_imgs/${message[i].imgurl}`;
                     // message[i].imgurl = `../../static/test_imgs/` + message[i].imgurl;
-
-                    let t = this.compareTime(this.oldTime, message[i].time);
-
-                    if(t) {
-                        this.oldTime = getDate(new Date(t));
-                        message[i].time = getDate(new Date(t));
-                        // this.oldTime = t;
-                    } else {
-                        message[i].time = t;
+                    // 时间判断
+                    if (i == 0){
+                        this.oldTime = message[i].time;
+                        message[i].time = getDate(new Date(message[i].time))
                     }
-                    
+                    else {
+                        if (this.compareTime(this.oldTime, message[i].time)) {
+                            this.oldTime = new Date(message[i].time);
+                            message[i].time = getDate(new Date(message[i].time));
+                        } else {
+                            this.oldTime = new Date(message[i].time);
+                            message[i].time = '';
+                        }
+                    }
+
                     // 当消息为图片
                     if (message[i].types == 1) {
                         message[i].message = `../../static/test_imgs/${message[i].message}`;
                     }
-                    this.messages.unshift(message[i]);
+                    this.messages.push(message[i]);
                 }
                 this.$nextTick(function() {
-                    this.scrollTo = 'msg' + this.messages[this.messages.length - 1].tip;
+                    // this.scrollTo = 'msg' + this.messages[this.messages.length - 1].tip;
                     // console.log(this.scrollTo);
+                    this.scrollFun()
                 })
             },
             // 比较本条消息和上条的时间戳，如果时间差小于五分钟则不显示本条消息的时间
@@ -120,20 +126,29 @@ import { nextTick } from 'vue';
 
                 let transO = old.getTime();
                 let transN = now.getTime();
-                if (transO - transN > 300000) {
+                
+                if (transO - transN < -300000) {
                     // this.messages[0].time = null;
-                    return now;
+                    return true;
                 } else {
-                    return '';
+                    return false;
                 }
             },
             // 滚动到底部
-            scrollToBottom() {
-                this.$nextTick(function() {
-                    this.scrollTo = 'msg' + this.messages[this.messages.length - 1].tip;
-                    console.log(this.scrollTo);
-                })
+            scrollFun(){
+                this.scrollTo = 'msg' + this.messages[this.messages.length - 1].tip;
+                // console.log(document.querySelector('#msg0'));
+                if (this.scrollTo) {
+                    document.querySelector(`#${this.scrollTo}`).scrollIntoView();
+                }
             },
+            // 滚动到底部
+            // scrollToBottom() {
+            //     this.$nextTick(function() {
+            //         this.scrollTo = 'msg' + this.messages[this.messages.length - 1].tip;
+            //         console.log(this.scrollTo);
+            //     })
+            // },
             // 获取输入框的值
             inputs: function (e) {
                 console.log('输入框值为' + e);
@@ -141,7 +156,10 @@ import { nextTick } from 'vue';
             // 获取下方高度
             heights: function (e) {
                 this.inputh = e;
-                this.scrollToBottom();
+                // this.scrollToBottom();
+                this.$nextTick(() => {
+                    this.scrollFun();
+                });
             },
 
             // 定义发送请求的函数
@@ -174,7 +192,7 @@ import { nextTick } from 'vue';
 @import '../../commons/css/topbar.scss';
 
 .main {
-    // height: 100%;
+    height: 100%;
     // padding-top: var(--status-bar-height);
     // padding-bottom: var(--status-bar-height);
     margin-top: 116rpx;
@@ -184,7 +202,9 @@ import { nextTick } from 'vue';
     //     height: var(--status-bar-height);
     //     width: 100%;
     // }
+    
     .messages{
+       
         // padding-bottom: 116rpx;
         .message {
             margin-bottom: 20rpx;

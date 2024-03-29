@@ -97,12 +97,52 @@ export default {
   message:function(){
     let messages = [
       {
+        id:0,
+        imgurl: '8.jpg',
+        message: '消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试',
+        types: 0,       // 类型：0文字 1图片 2音频
+        time: new Date() - 1000 * 60 * 60 * 18,    // 发送时间
+        tip: 7,
+      },
+      {
         id:1,
         imgurl: '10.jpg',
-        message: '消息测试',
+        message: '消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试',
         types: 0,       // 类型：0文字 1图片 2音频
-        time: new Date(),    // 发送时间
-        tip: 0,     // 消息本身的id
+        time: new Date() - 1000 * 60 * 60 * 18,    // 发送时间
+        tip: 6,
+      },
+      {
+        id:1,
+        imgurl: '10.jpg',
+        message: '消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试',
+        types: 0,       // 类型：0文字 1图片 2音频
+        time: new Date() - 1000 * 60 * 6,    // 发送时间
+        tip: 5,
+      },
+      {
+        id:1,
+        imgurl: '10.jpg',
+        message: '消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试',
+        types: 0,       // 类型：0文字 1图片 2音频
+        time: new Date() - 1000 * 60 * 6,    // 发送时间
+        tip: 4,
+      },
+      {
+        id:1,
+        imgurl: '10.jpg',
+        message: '消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试',
+        types: 0,       // 类型：0文字 1图片 2音频
+        time: new Date() - 1000 * 60 * 6,    // 发送时间
+        tip: 3,
+      },
+      {
+        id:1,
+        imgurl: '10.jpg',
+        message: '3.jpg',
+        types: 1,       // 类型：0文字 1图片 2音频
+        time: new Date() - 1000 * 60 * 6,    // 发送时间
+        tip: 2,
       },
       {
         id:0 ,
@@ -115,50 +155,10 @@ export default {
       {
         id:1,
         imgurl: '10.jpg',
-        message: '3.jpg',
-        types: 1,       // 类型：0文字 1图片 2音频
-        time: new Date(),    // 发送时间
-        tip: 2,
-      },
-      {
-        id:1,
-        imgurl: '10.jpg',
-        message: '消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试',
+        message: '消息测试',
         types: 0,       // 类型：0文字 1图片 2音频
         time: new Date(),    // 发送时间
-        tip: 3,
-      },
-      {
-        id:1,
-        imgurl: '10.jpg',
-        message: '消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试',
-        types: 0,       // 类型：0文字 1图片 2音频
-        time: new Date(),    // 发送时间
-        tip: 4,
-      },
-      {
-        id:1,
-        imgurl: '10.jpg',
-        message: '消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试',
-        types: 0,       // 类型：0文字 1图片 2音频
-        time: new Date(),    // 发送时间
-        tip: 5,
-      },
-      {
-        id:1,
-        imgurl: '10.jpg',
-        message: '消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试',
-        types: 0,       // 类型：0文字 1图片 2音频
-        time: new Date(),    // 发送时间
-        tip: 6,
-      },
-      {
-        id:0,
-        imgurl: '8.jpg',
-        message: '消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试',
-        types: 0,       // 类型：0文字 1图片 2音频
-        time: new Date() - 1000 * 60 * 60 * 18,    // 发送时间
-        tip: 7,
+        tip: 0,     // 消息本身的id
       },
     ];
     return messages;

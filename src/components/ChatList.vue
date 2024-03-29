@@ -36,7 +36,6 @@ export default {
     const friend = ref([]);
     // 从后端获取数据
     // var datas = [];
-
     const urlResolve = (imgurl) => {
       return `../../static/test_imgs/${imgurl}`;
     }

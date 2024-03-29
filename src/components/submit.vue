@@ -44,7 +44,6 @@ export default {
                     this.msg = '';
                 });
             }
-
             this.msg = e.detail.value;
         },
         // 表情

@@ -64,26 +64,21 @@
         setup() {
             // 先创建一个接受信息的响应式变量
             const requestList = ref([]);
-
             // const components = {
             //     TopBar,
             //     View 
             // };
-
             const urlResolve = (imgurl) => {
                 // 模板字符串 将变量插入字符串
                 return `../../static/test_imgs/${imgurl}`;
             };
-
             const getinfo = () => {
                 requestList.value = datas.requestList();
-
                 // 替换对象中的图片地址
                 for (let i of requestList.value) {
                     i.imgurl = urlResolve(i.imgurl);
                 }
             };
-
             onMounted (() => {
                 getinfo();
             });
