@@ -30,11 +30,11 @@
       <!-- <h1 class="error">用户名或密码错误</h1> -->
       <!-- <h1 class="error" v-else>用户名或密码错误</h1> -->
       <view class="inputs">
-        <input type="text" placeholder="用户名/邮箱" class="user">
+        <input type="text" placeholder="用户名/邮箱" class="user" @blur="checkEmail" v-model="mail">
         <input type="password" placeholder="密码" class="pw">
       </view>
       <view class="tips">用户名或密码错误</view>
-      <view class="sub">登录</view>
+      <view class="sub" @tap="testFunc">登录</view>
     </view>
   </view>
   
@@ -50,12 +50,54 @@ export default {
     View,
     Navigator
   },
-  Set() {
-    const goBack = () => {
-
+  data() {
+    return {
+      mail: '',
+      token: '',
     }
-
-    const search = () => {}
+  },
+  methods: {
+    testFunc() {
+      uni.request({
+        url: 'http://47.113.103.222:3000/signin/pair',
+        method: 'POST',
+        data: {
+          // mail: this.mail,
+          // mail: 'laffier7596@gmail.com',
+          // name: 'wyz',
+          // psw:'admin0',
+          token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MGI4N2EwMzI2NTZjNDVmMDg3Zjc5OCIsInRpbWUiOiIyMDI0LTA0LTAzVDAzOjAzOjE4LjQzM1oiLCJpYXQiOjE3MTIxMTMzOTgsImV4cCI6MTcxNDcwNTM5OH0.TO3YW3nagaknExvrH9xo7P2mjQHhD23qO09_CnflA14',
+          data: 'wyz',
+          psw: 'admin0',
+          // data:'996158618@qq.com',
+          // type: 'wyz',
+        },
+        success: (res) => {
+          // console.log(res.data.data.token);
+          console.log(res);
+          console.log('success');
+        },
+        fail: (err) => {
+          console.error(err);
+          console.log('failure');
+        }
+      })
+    },
+    checkEmail: function(e) {
+      this.email = e.detail.value;
+      console.log(this.email);
+      // var reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+      var reg = /^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/;
+      if (this.email.length > 0) {
+        if (reg.test(this.email)) {
+          this.invalid = false;
+          console.log('邮箱格式正确');
+        } else {
+          this.invalid = true;
+          console.log('邮箱格式错误');
+        }
+      }
+    },
   },
   onLoad() {
     uni.setNavigationBarTitle({
