@@ -28,20 +28,20 @@
       <h1 class="title">Register</h1>
       <view class="inputs">
         <view class="inputs-div">
-          <input type="text" placeholder="用户名" class="user" >
+          <input type="text" placeholder="用户名" class="user" v-model="username">
           <view class="emply" v-if="emply">有人起了</view>
         </view>
         <view class="inputs-div"><!--  -->
-          <input type="text" placeholder="邮箱" class="email" @blur="checkEmail">
+          <input type="text" placeholder="邮箱" class="email" @blur="checkEmail" v-model="mail">
           <view class="emply" v-if="emply">有人起了</view>
           <view class="invalid" v-if="invalid">邮箱无效</view>
         </view>
         <view class="inputs-div">
-          <input type="password" placeholder="密码">
+          <input type="password" placeholder="密码" v-model="password">
           <!-- <view class="emply" v-if="emply" @tap="eyes">有人起了</view> -->
         </view>
       </view>
-      <view class="sub">注册</view>
+      <view class="sub" @tap="createUser">注册</view>
     </view>
 
 
@@ -60,6 +60,9 @@ export default {
       type: 'password',
       invalid: false,
       emply: false,
+      username: '',
+      mail: '',
+      password: '',
     };
   },
   methods: {
@@ -90,6 +93,47 @@ export default {
           console.log('邮箱格式错误');
         }
       }
+    },
+    // 后端创建用户
+    createUser() {
+      uni.request({
+        url: 'http://47.113.103.222:3000/signup/add',
+        method: 'POST',
+        data: {
+          name: this.username,
+          mail: this.mail,
+          psw: this.password,
+        },
+        success: (res) => {
+          this.sendMail();
+          // console.log(res.data.data.token);
+          console.log(res);
+          console.log('success');
+        },
+        fail: (err) => {
+          console.error(err);
+          console.log('failure');
+        }
+      })
+    },
+    // 邮箱发送成功邮件
+    sendMail() {
+      uni.request({
+        url: 'http://47.113.103.222:3000/mail',
+        method: 'POST',
+        data: {
+          mail: this.mail,
+        },
+        success: (res) => {
+          // console.log(res.data.data.token);
+          console.log(res);
+          console.log('success');
+        },
+        fail: (err) => {
+          console.error(err);
+          console.log('failure');
+        }
+      })
     },
   },
   onLoad() {
