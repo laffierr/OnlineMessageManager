@@ -40,8 +40,27 @@ const component = (date) => {
       return `${Y}/${M}/${D}`
     }
 }
+// 防抖函数
+const debounce = (func, t) => {
+  console.log('yc');
+  // 默认500ms延迟
+  let delay = t || 500;
+  let timer;
+  return function() {
+    const args = arguments;
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(function() {
+      timer = null;
+      func.apply(this, args);
+    }, delay);
+  };
+}
+
 
 export {
     getDate,
-    component
+    component,
+    debounce
 }

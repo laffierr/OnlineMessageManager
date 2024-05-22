@@ -1,8 +1,8 @@
 .topbar-left {
   float: left;
   display: flex;
-  width: 50rpx;
-  image {
+  // width: 50rpx;
+  .topbarImage {
     margin-top: 20rpx;
     width: 60rpx;
     height: 60rpx;
@@ -26,7 +26,7 @@
 .topbar-right {
   float: right;
   display: flex;
-  image {
+  .topbarImage {
     margin-top: 20rpx;
     width: 60rpx;
     height: 60rpx;

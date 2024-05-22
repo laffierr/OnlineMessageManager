@@ -7,8 +7,7 @@
       <view class="list-item">
         <view class="list-item-pic">
           <text class="tip">{{item.tip}}</text>
-          <image :src="item.imgurl"></image>
-          <!--  这个冒号是动态绑定的意思吗？ -->
+          <image :src="item.imgUrl"></image>
         </view>
         <view class="list-item-chat">
           <view class="upper">
@@ -25,62 +24,123 @@
 </template>
 
 <script>
-import datas from '../commons/js/datas.js';
+// import datas from '../commons/js/datas.js';
 import { getDate, component } from '../commons/js/myFun.js';
 import axios from 'axios';
-import {ref, onMounted} from 'vue';
+// import {ref, onMounted} from 'vue';
 export default {
   name: 'chatList',
 
-  setup() {
-    const friend = ref([]);
-    // 从后端获取数据
-    // var datas = [];
-    const urlResolve = (imgurl) => {
-      return `../../static/test_imgs/${imgurl}`;
-    }
+  // 组合式API的尝试
+  // setup() {
+  //   const friend = ref([]);
+  //   // 从后端获取数据
+  //   // var datas = [];
+  //   const urlResolve = (imgurl) => {
+  //     return `../../static/test_imgs/${imgurl}`;
+  //   }
 
-    const getinfo = () => {
-      friend.value = datas.friend();
+  //   const getinfo = () => {
+  //     friend.value = datas.friend();
+  //     // 左边的是这个的friend 右边的是data.js中的friend
+  //     // friend.value = datas.data;
+  //     for( let i = 0; i < friend.value.length; i++) {
+  //       friend.value[i].imgurl = urlResolve(friend.value[i].imgurl);
+  //       friend.value[i].time = getDate(new Date(friend.value[i].time));
+  //     }
+  //   }
+  //   onMounted( ()=> {
+  //     getinfo();
+  //   });
+  //   return {
+  //     friend,
+  //   };
+  // },
+
+  // 选项式API
+  data() {
+    return {
+      friend: [],
+      
+    }
+  },
+  methods: {
+    urlResolve(imgurl) {
+      // return `../../static/test_imgs/${imgurl}`;
+      return this.$serverUrl + imgurl;
+      console.log('urlR');
+    },
+
+    getinfo() {
+      return new Promise ((resolve,reject) => {
+        uni.request({
+          url:this.$serverUrl + '/index/getUsers',
+          data: { 
+            id:this.id,
+            state: 0,
+            token: this.token,
+          },
+          method: 'POST',
+          success: (data) => {
+            let status = data.data.status;
+            if (status == 200) {
+              this.friend = data.data.result;
+              // resolve (res > 0);
+              this.transinfo();
+            } else if(status == 500 ) {
+              uni.showToast({
+                title:'服务器出错 代码500',
+                icon: 'none',
+                duration: 2000,
+              });
+              reject(new Error('服务器出错'));
+            } else if(status == 300 ) {
+              // token过期，重新登录
+              uni.navigateTo({
+                url: '../signin/signin?name =' + this.user,
+              })
+              reject(new Error('Token过期'));
+            }
+          },
+          fail: (err) => {
+            reject(err);
+          }
+        })
+      })
+    },
+
+    transinfo() {
+      // friend.value = this.friend;
       // 左边的是这个的friend 右边的是data.js中的friend
       // friend.value = datas.data;
-      for( let i = 0; i < friend.value.length; i++) {
-        friend.value[i].imgurl = urlResolve(friend.value[i].imgurl);
-        friend.value[i].time = getDate(new Date(friend.value[i].time));
+      for( let i = 0; i < this.friend.length; i++) {
+        this.friend[i].imgUrl = this.urlResolve(this.friend[i].imgUrl);
+        // friend.value[i].time = getDate(new Date(friend.value[i].time));
       }
-    }
-
-    // let sendRequest = () => {
-    //   console.log('checksendrequest');
-    //   // 准备发送的数据，如果有的话
-
-    //   // 发送 POST 请求
-    //   axios.get('http://localhost:63040/file')
-    //     .then(response => {
-    //       // 请求成功，可以在这里处理返回的数据
-          
-    //       datas = response.data;
-    //       console.log(datas.data);
-    //       getinfo();
-    //     })
-    //     .catch(error => {
-    //       // 请求失败，可以在这里处理错误信息
-    //       console.error("请求失败:", error);
-    //     });
-    // }
-
-    onMounted( ()=> {
-      
-      // sendRequest();
-      getinfo();
-
-    });
-
-    return {
-      friend,
-    };
-
+    },
+    // 获取缓存数据
+    getStorage() {
+      try {
+        const value = uni.getStorageSync('user');
+        if(value) {
+          this.id = value.id;
+          this.name = value.name;
+          this.imgurl = this.$serverUrl + value.imgurl;
+          this.token = value.token;
+        } else {
+          uni.navigateTo({
+            url: '../signin/signin',
+          })
+        }
+      } catch (error) {
+        console.log('获取登陆页面个人数据错误' + error);
+      }
+    },
   },
+  mounted() {
+    this.getStorage();
+    this.getinfo();
+  }
 }
 </script>
 

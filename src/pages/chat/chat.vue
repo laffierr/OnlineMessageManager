@@ -82,6 +82,7 @@ import { nextTick } from 'vue';
         },
         created() {
             this.getMsg();
+            // this.friendRequest();
             // this.sendRequest();
         },
         methods: {
@@ -151,7 +152,21 @@ import { nextTick } from 'vue';
             // },
             // 获取输入框的值
             inputs: function (e) {
-                console.log('输入框值为' + e);
+                let len = this.messages.length;
+                let data = {
+                    id:0,
+                    imgurl: '../../static/test_imgs/8.jpg',
+                    message: e.message,
+                    // message: e.message,
+                    types: e.type,       // 类型：0文字 1图片 2音频
+                    time: getDate(new Date()),    // 发送时间
+                    tip: len,
+                    // tip: len + 1,
+                };
+                this.messages.push(data);
+                this.$nextTick(() => {
+                    this.scrollFun();
+                });
             },
             // 获取下方高度
             heights: function (e) {

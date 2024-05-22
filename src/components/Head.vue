@@ -17,9 +17,17 @@
 
 <script>
 	
-	export default {
-		name: 'Head',
+export default {
+	name: 'Head',
+	data(){
+		return {
+
+		}
+	},
+	methods: {
+		
 	}
+}
 	
 </script>
 

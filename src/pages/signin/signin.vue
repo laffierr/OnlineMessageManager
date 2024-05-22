@@ -10,7 +10,6 @@
         <view class="topbar-left">
           <!-- <image src="../../static/test_imgs/1.jpg"></image> -->
           <i class="iconfont icon-setting"></i>
-
         </view>
       </template>
 
@@ -31,10 +30,10 @@
       <!-- <h1 class="error" v-else>用户名或密码错误</h1> -->
       <view class="inputs">
         <input type="text" placeholder="用户名/邮箱" class="user" @blur="checkEmail" v-model="mail">
-        <input type="password" placeholder="密码" class="pw">
+        <input type="password" placeholder="密码" class="pw" v-model="psw">
       </view>
-      <view class="tips">用户名或密码错误</view>
-      <view class="sub" @tap="testFunc">登录</view>
+      <view class="tips" :style="{display: pair}">用户名或密码错误</view>
+      <view class="sub" @tap="login">登录</view>
     </view>
   </view>
   
@@ -53,37 +52,13 @@ export default {
   data() {
     return {
       mail: '',
+      psw:'',
       token: '',
+      pair: 'none',
     }
   },
   methods: {
-    testFunc() {
-      uni.request({
-        url: 'http://47.113.103.222:3000/signin/pair',
-        method: 'POST',
-        data: {
-          // mail: this.mail,
-          // mail: 'laffier7596@gmail.com',
-          // name: 'wyz',
-          // psw:'admin0',
-          token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MGI4N2EwMzI2NTZjNDVmMDg3Zjc5OCIsInRpbWUiOiIyMDI0LTA0LTAzVDAzOjAzOjE4LjQzM1oiLCJpYXQiOjE3MTIxMTMzOTgsImV4cCI6MTcxNDcwNTM5OH0.TO3YW3nagaknExvrH9xo7P2mjQHhD23qO09_CnflA14',
-          data: 'wyz',
-          psw: 'admin0',
-          // data:'996158618@qq.com',
-          // type: 'wyz',
-        },
-        success: (res) => {
-          // console.log(res.data.data.token);
-          console.log(res);
-          console.log('success');
-        },
-        fail: (err) => {
-          console.error(err);
-          console.log('failure');
-        }
-      })
-    },
-    checkEmail: function(e) {
+    checkEmail(e) {
       this.email = e.detail.value;
       console.log(this.email);
       // var reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
@@ -98,11 +73,78 @@ export default {
         }
       }
     },
+    login(){
+      if (this.mail && this.psw) {
+        uni.request({
+          url:this.$serverUrl + '/signin/pair',
+          data: {
+            data: this.mail,
+            psw: this.psw,
+          },
+          method: 'POST',
+          success: (data) => {
+            let status = data.data.status;
+            if (status == 200) {
+              var res = data.data.data;
+              console.log(res);
+              // 匹配成功
+              this.pair = 'none';
+              // 在本地存储用户信息
+              try {
+                uni.setStorageSync('user', {'id':res.id, 'name':res.name, 'imgurl':res.imgurl, 'token':res.token });
+              } catch (error) {
+                console.log('本地数据存储错误' + error);
+              }
+
+              // try {
+              //   const i = uni.getStorageSync('user');
+              //   console.log(i);
+              // } catch (error) {
+              //   console.log('本地数据存储错误' + error);
+              // }
+
+              // 跳转到首页 
+              uni.navigateTo({
+                url: '../index/index',
+              })
+            } else if (status == 400) {
+              // 用户名、邮箱、密码错误
+              this.pair = 'block';
+              // 清空密码
+              this.psw = '';
+            } else if (status == 500) {
+              // 服务器逻辑出错
+              uni.showToast({
+                title: '服务器内部错误',
+                icon: 'none',
+                duration: 2000,
+              });
+            }
+          }
+
+        })
+      }
+    }
   },
-  onLoad() {
+  onLoad(e) {
     uni.setNavigationBarTitle({
         title: '用户登录',
     });
+    if (e.user) {
+      this.user = e.user;
+      uni.showToast({
+        title:'用户注册成功，现返回登陆界面进行登录',
+        icon:'none',
+        duration: 2000,
+      });
+    } else if (e.name) {
+      this.user = e.name;
+      uni.showToast({
+        title:'登录已过期',
+        icon:'none',
+        duration: 2000,
+      })
+    }
   }
 
 }

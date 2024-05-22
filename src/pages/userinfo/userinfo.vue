@@ -4,7 +4,8 @@
             <template v-slot:left>
                 <view class="topbar-left">
                     <!-- <image src="../../static/test_imgs/1.jpg"></image> -->
-                    <i class="iconfont icon-arrow-left-bold"></i>
+                    <!-- <i class="iconfont icon-arrow-left-bold"></i> -->
+                    <navigator open-type="navigateBack" delta="1" animation-type="pop-out" animation-duration="300" class="iconfont icon-arrow-left-bold"></navigator>
                 </view>
             </template>
             <template v-slot:right>
@@ -75,38 +76,33 @@ export default {
         TopBar,
         View
     },
-    setup() {
-        var url = ref('')
-        var path = ref('')
-
-        const select = () => {
+    data() {
+        return {
+            url: '',
+            path: '',
+        }
+    },
+    methods: {
+        select(){
             uni.chooseImage({
                 count:1, //默认是9
                 sourceType:['album','carema'],
                 success: (rst) => {
                     // 设置url的值，显示控件
-                    url.value = rst.tempFilePaths[0];
+                    this.url = rst.tempFilePaths[0];
                 }
             });
-        };
+        },
 
-        const onok = (ev) => {
-            url.value = "";
-            path.value = ev.path;
-        };
+        onok(ev){
+            this.url = "";
+            this.path = ev.path;
+        },
 
-        const oncancel = () => {
+        oncancel(){
             // url设置为空，隐藏控件
-            url.value = "";
-        };
-        
-        return {
-            url,
-            path,
-            select,
-            onok,
-            oncancel,
-        };
+            this.url = "";
+        },
     },
     onLoad() {
         uni.setNavigationBarTitle({

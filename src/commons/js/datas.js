@@ -11,8 +11,8 @@ export default {
         name: 'wyz',
         email: '123@gmail.com',
         // 给出十八小时前的时间戳
-        time: new Date() - 1000 * 60 * 60 * 18,
-        last: 'sfd',
+        time: new Date() - 1000 * 60 * 60 * 80,
+        last: '消息测试',
       },
       {
         id:2,
@@ -21,8 +21,8 @@ export default {
         name: 'fyb',
         email: '456@gmail.com',
         // time: getDate(new Date()),
-        time: new Date() - 1000 * 60 * 60 * 18,
-        last: 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+        time: new Date() - 1000 * 60 * 60 * 80,
+        last: '消息测试',
       },
       {
         id:3,
@@ -30,8 +30,8 @@ export default {
         tip:2,
         name: 'fyb2',
         email: '789@gmail.com',
-        time: new Date(),
-        last: 'ssssssssssssssssssssssssssss',
+        time: new Date() - 1000 * 60 * 60 * 72,
+        last: '消息测试',
       },
       {
         id:4,
@@ -39,8 +39,8 @@ export default {
         tip:2,
         name: 'zjz',
         email: '101213@gmail.com',
-        time: new Date(),
-        last: 'ssssssssssssssssssss',
+        time: new Date() - 1000 * 60 * 60 * 72,
+        last: '消息测试',
       },
       {
         id:5,
@@ -48,8 +48,8 @@ export default {
         tip:2,
         name: 'zj2',
         email: '1223@gmail.com',
-        time: new Date(),
-        last: 'sssssssssssssssssssssss',
+        time: new Date() - 1000 * 60 * 60 * 72,
+        last: '消息测试',
       },
       {
         id:7,
@@ -57,8 +57,8 @@ export default {
         tip:2,
         name: 'zzq',
         email: '11223@gmail.com',
-        time: new Date(),
-        last: 'sssssssssssssssssssssssssssssss',
+        time: new Date() - 1000 * 60 * 60 * 72,
+        last: '消息测试',
       },
       {
         id:8,
@@ -66,8 +66,8 @@ export default {
         tip:1,
         name: 'zzq2',
         email: '123333@gmail.com',
-        time: new Date(),
-        last: 'sssssssssssssssssssssssssssaaaaaaassss',
+        time: new Date() - 1000 * 60 * 60 * 56,
+        last: '消息测试',
       },
     ];
     return friendArr;
